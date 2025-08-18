@@ -8,7 +8,12 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors({
-  origin: ["http://127.0.0.1:3000", "http://localhost:3000"], // Add your frontend origin here
+  origin: [
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+    "https://tragon.in",   // <-- Add your domain (https)
+    "http://tragon.in"     // <-- Add your domain (http)
+  ],
 }));
 app.use(express.json());
 
