@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
       msg.textContent = "Submitting...";
       msg.classList.remove("error");
 
-      fetch("http://localhost:5000/api/consultation", {
+fetch("https://tragontechnologies.onrender.com/api/consultation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
