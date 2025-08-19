@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "c:/ronnix/ronnxwebdev/.env" });
+require("dotenv").config();
 console.log("GMAIL_USER:", process.env.GMAIL_USER);
 console.log("GMAIL_PASS:", process.env.GMAIL_PASS ? "Loaded" : "Missing");
 
@@ -7,6 +7,12 @@ const nodemailer = require("nodemailer");
 const cors = require("cors");
 
 const app = express();
+app.get("/debug-env", (req, res) => {
+  res.json({
+    gmail_user: process.env.GMAIL_USER ? "Loaded ✅" : "Missing ❌",
+    gmail_pass: process.env.GMAIL_PASS ? "Loaded ✅" : "Missing ❌"
+  });
+});
 
 // ✅ CORS Config
 app.use(cors({
