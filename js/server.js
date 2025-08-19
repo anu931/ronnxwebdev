@@ -5,8 +5,11 @@ console.log("GMAIL_PASS:", process.env.GMAIL_PASS ? "Loaded" : "Missing");
 const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
+const rateLimit = require("express-rate-limit");
 
 const app = express();
+
+// ✅ Debug route to confirm env vars
 app.get("/debug-env", (req, res) => {
   res.json({
     gmail_user: process.env.GMAIL_USER ? "Loaded ✅" : "Missing ❌",
@@ -21,16 +24,19 @@ app.use(cors({
     "http://localhost:3000",
     "https://tragon.in",
     "http://tragon.in",
-    "https://www.tragon.in"
+    "https://www.tragon.in",
+    "https://tragontechnologies.onrender.com"
   ],
   methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept"],
 }));
 
-// ✅ Make sure Express can handle OPTIONS globally
-app.options("*", cors());
-
+// ✅ Parse JSON
 app.use(express.json());
+
+// ✅ Rate limiter BEFORE route
+const limiter = rateLimit({ windowMs: 60 * 1000, max: 5 });
+app.use("/api/consultation", limiter);
 
 // ✅ Nodemailer Transport
 const transporter = nodemailer.createTransport({
@@ -42,7 +48,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Verify transporter
-transporter.verify((error, success) => {
+transporter.verify((error) => {
   if (error) {
     console.error("Error with email transporter:", error);
   } else {
