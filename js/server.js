@@ -9,6 +9,8 @@ const rateLimit = require("express-rate-limit");
 
 const app = express();
 
+
+
 // ✅ Debug route to confirm env vars
 app.get("/debug-env", (req, res) => {
   res.json({
@@ -33,6 +35,9 @@ app.use(cors({
 
 // ✅ Parse JSON
 app.use(express.json());
+
+// ✅ Serve static files from deploy directory
+app.use(express.static("deploy"));
 
 // ✅ Rate limiter BEFORE route
 const limiter = rateLimit({ windowMs: 60 * 1000, max: 5 });
