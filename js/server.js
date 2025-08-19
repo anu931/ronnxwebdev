@@ -14,7 +14,8 @@ app.use(cors({
     "http://127.0.0.1:3000",
     "http://localhost:3000",
     "https://tragon.in",
-    "http://tragon.in"
+    "http://tragon.in",
+    "https://www.tragon.in"
   ],
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
